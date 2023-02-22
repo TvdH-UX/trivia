@@ -52,10 +52,16 @@ function App() {
   };
 
   const handleAnswerClick = (event) => {
+    console.log(event.target.value);
     // eerst iets met chosen answer
     setChosenAnswer(event.target.value);
+    console.log(chosenAnswer);
+    if (event.target.value === triviaData[currentQuestion].correctAnswer) {
+      setCorrectAnswers((correctAnswers) => correctAnswers + 1);
+      playSound();
+    }
   };
-  console.log(chosenAnswer);
+  // console.log(chosenAnswer);
 
   const handleResetClick = () => {
     setTriviaData(null);
@@ -65,19 +71,19 @@ function App() {
   };
 
   const onNextButtonClick = () => {
-    setChosenAnswer(null);
+    // if (chosenAnswer === triviaData[currentQuestion].correctAnswer) {
+    //   setCorrectAnswers((correctAnswers) => correctAnswers + 1);
+    //   playSound();
+    // }
     if (currentQuestion < triviaSize - 1) {
-      if (chosenAnswer === triviaData[currentQuestion].correctAnswer) {
-        setCorrectAnswers((correctAnswers) => correctAnswers + 1);
-        playSound();
-      }
       setCurrentQuestion((currentQuestion) => currentQuestion + 1);
     } else {
       setIsPlaying(false);
     }
+    setChosenAnswer(null);
   };
 
-  triviaData && console.log(triviaData);
+  // triviaData && console.log(triviaData);
   // omzetten naar een los component -> game component
   // end game state op basis van laatste vraag gehad?
   const render = (isPlaying) => {
@@ -91,6 +97,9 @@ function App() {
               currentQuestion={currentQuestion}
             />
             {/* Iets van hasAnswered om juiste antwoord te laten zien => */}
+            {chosenAnswer ? (
+              <p>Correct answer: {triviaData[currentQuestion].correctAnswer}</p>
+            ) : null}
             <Question questions={triviaData[currentQuestion].question} />
 
             <div>
@@ -107,7 +116,9 @@ function App() {
               </ul>
             </div>
             {chosenAnswer ? (
-              <button onClick={onNextButtonClick}>Next</button>
+              <div className="nextBtn">
+                <button onClick={onNextButtonClick}>Next</button>
+              </div>
             ) : null}
             <ResetButton onClick={handleResetClick} isPlaying={isPlaying} />
           </>

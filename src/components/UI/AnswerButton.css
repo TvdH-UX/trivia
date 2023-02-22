@@ -28,3 +28,7 @@ button:hover {
   box-shadow: 0 1px 8px rgba(255, 255, 255, 0.4);
   cursor: pointer;
 }
+
+.wrongAnswer {
+  opacity: 0.5;
+}
