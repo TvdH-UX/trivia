@@ -20,11 +20,12 @@ Use state
 */
 
 const AnswerButton = ({ answer, onClick, isSelected, isDisabled }) => {
-  console.log(isSelected);
+  // console.log(isSelected);
   return (
     <button
       disabled={isDisabled}
-      className="answer_btn"
+      className={isDisabled && !isSelected ? "wrongAnswer" : "answerBtn"}
+      // className="answer_btn" //stijl op basis van is geselecteerd
       onClick={onClick}
       key={Math.random()}
       value={answer}

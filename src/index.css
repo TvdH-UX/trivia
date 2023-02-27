@@ -36,11 +36,18 @@ div {
 }
 
 .ui-element {
-  margin-top: 4rem;
+  margin-top: 3rem;
   /* width: 90%; */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.nextBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
 }
 
 .endScreen {

@@ -67,24 +67,27 @@ export const Game = ({ triviaData, resetGame }) => {
         currentQuestion={currentQuestionIndex}
       />
       {/* Iets van hasAnswered om juiste antwoord te laten zien => */}
-      {/* Just a nitpick: Re-named to question instead of questions */}
+      {chosenAnswer ? <p>Correct answer: {correctAnswer}</p> : null}
       <Question question={question} />
 
       <div>
         <ul className="list">
           {triviaData &&
             answers.map((answer) => (
-              // With all these different type of buttons I think we can create a re-usable Button for all these cases
               <AnswerButton
                 answer={answer}
                 onClick={handleAnswerClick}
                 isSelected={answer === chosenAnswer}
-                isDisabled={chosenAnswer}
+                isDisabled={chosenAnswer} // weer op null zetten naar volgende vraag
               />
             ))}
         </ul>
       </div>
-      {chosenAnswer ? <button onClick={onNextButtonClick}>Next</button> : null}
+      {chosenAnswer ? (
+        <div className="nextBtn">
+          <button onClick={onNextButtonClick}>Next</button>
+        </div>
+      ) : null}
       <ResetButton onClick={handleResetClick} isPlaying={isPlaying} />
     </>
   ) : (
