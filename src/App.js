@@ -1,8 +1,7 @@
 import "./App.css";
-import Question from "./components/Questions/Question";
-import AnswerButton from "./components/UI/AnswerButton";
+
 import React, { useState } from "react";
-import useSound from "use-sound";
+import { Game } from "./components/UI/Game";
 import { useFetch } from "../src/hooks/useFetch";
 import { toTriviaInformation } from "./components/Util/helpers";
 import { useEffect } from "react";
@@ -10,10 +9,6 @@ import { useEffect } from "react";
 import Description from "./components/UI/Description";
 import Footer from "./components/Footer/Footer";
 import NewQuestionsForm from "./components/Questions/NewQuestionsForm";
-import ScoreCounter from "./components/UI/ScoreCounter";
-import ResetButton from "./components/UI/ResetButton";
-import GameEnded from "./components/UI/GameEnded";
-import mySound from "./correct.wav";
 
 // api no input
 // https://opentdb.com/api.php?amount=10
@@ -33,113 +28,23 @@ function App() {
   const { data, isLoading, error, fetchData } = useFetch();
   const [triviaData, setTriviaData] = useState(null);
 
-  //dit hoort eigenlijk in game component
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [triviaSize, setTriviaSize] = useState();
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [chosenAnswer, setChosenAnswer] = useState(null);
-  const [playSound] = useSound(mySound);
-
   useEffect(() => {
     if (data) {
       setTriviaData(toTriviaInformation(data.results));
     }
   }, [data]);
 
-  const getTriviaLength = (amount) => {
-    setTriviaSize(amount);
-  };
-
-  const handleAnswerClick = (event) => {
-    // eerst iets met chosen answer
-    setChosenAnswer(event.target.value);
-  };
-  console.log(chosenAnswer);
-
-  const handleResetClick = () => {
+  const resetGame = () => {
     setTriviaData(null);
-    setCurrentQuestion(0);
-    setCorrectAnswers(0);
-    setIsPlaying(true);
   };
 
-  const onNextButtonClick = () => {
-    setChosenAnswer(null);
-    if (currentQuestion < triviaSize - 1) {
-      if (chosenAnswer === triviaData[currentQuestion].correctAnswer) {
-        setCorrectAnswers((correctAnswers) => correctAnswers + 1);
-        playSound();
-      }
-      setCurrentQuestion((currentQuestion) => currentQuestion + 1);
-    } else {
-      setIsPlaying(false);
-    }
-  };
-
-  triviaData && console.log(triviaData);
-  // omzetten naar een los component -> game component
-  // end game state op basis van laatste vraag gehad?
-  const render = (isPlaying) => {
-    switch (isPlaying) {
-      case true:
-        return (
-          <>
-            <ScoreCounter
-              correctAnswers={correctAnswers}
-              triviaSize={triviaSize}
-              currentQuestion={currentQuestion}
-            />
-            {/* Iets van hasAnswered om juiste antwoord te laten zien => */}
-            <Question questions={triviaData[currentQuestion].question} />
-
-            <div>
-              <ul className="list">
-                {triviaData &&
-                  triviaData[currentQuestion].answers.map((answer) => (
-                    <AnswerButton
-                      answer={answer}
-                      onClick={handleAnswerClick}
-                      isSelected={answer === chosenAnswer}
-                      isDisabled={chosenAnswer} // weer op null zetten naar volgende vraag
-                    />
-                  ))}
-              </ul>
-            </div>
-            {chosenAnswer ? (
-              <button onClick={onNextButtonClick}>Next</button>
-            ) : null}
-            <ResetButton onClick={handleResetClick} isPlaying={isPlaying} />
-          </>
-        );
-      case false:
-        return (
-          <div className="endScreen">
-            <GameEnded
-              correctAnswers={correctAnswers}
-              triviaSize={triviaSize}
-            />
-            <ResetButton onClick={handleResetClick} isPlaying={isPlaying} />
-          </div>
-        );
-    }
-  };
-  //side effect -> data -> start game
-  //
   return (
     <div>
       <Description />
-      {/* {triviaData ? <Game triviaData={triviaData}/> : null} */}
       {triviaData ? (
-        <>{render(isPlaying)}</>
+        <Game triviaData={triviaData} resetGame={resetGame} />
       ) : (
-        <>
-          <NewQuestionsForm
-            fetchData={fetchData}
-            setTriviaSize={getTriviaLength}
-            isLoading={isLoading}
-          />
-        </>
+        <NewQuestionsForm fetchData={fetchData} isLoading={isLoading} />
       )}
       <Footer />
     </div>

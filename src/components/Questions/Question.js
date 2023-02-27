@@ -3,14 +3,11 @@ import Card from "../UI/Card";
 import styles from "./Question.module.css";
 import { createMarkup } from "../Util/helpers";
 
-const Question = (props) => {
-  let question = props.questions;
-
-  return (
-    <Card className={styles.question}>
-      <h3 dangerouslySetInnerHTML={createMarkup(question)}></h3>
-    </Card>
-  );
-};
+//Tiny improvement but a nice pattern to destruct props in this way in my opinion (unless you have a huge list of props ofcourse)
+const Question = ({ question }) => (
+  <Card className={styles.question}>
+    <h3 dangerouslySetInnerHTML={createMarkup(question)}></h3>
+  </Card>
+);
 
 export default Question;
