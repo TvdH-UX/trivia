@@ -1,5 +1,5 @@
 import styles from "./NewQuestionsForm.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 
 const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
@@ -7,11 +7,7 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
   const [difficulty, setDifficulty] = useState("");
   const [category, setCategory] = useState("");
 
-  const { data, fetchData: fetchCategories } = useFetch();
-
-  useEffect(() => {
-    fetchCategories(`https://opentdb.com/api_category.php`);
-  }, []);
+  const { data } = useFetch("https://opentdb.com/api_category.php");
 
   const difficulties = [
     { difficulty: "Willekeurig", id: 0, value: "" },

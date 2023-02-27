@@ -25,7 +25,7 @@ import NewQuestionsForm from "./components/Questions/NewQuestionsForm";
 // Even laten zien welk antwoord wél goed was
 
 function App() {
-  const { data, isLoading, error, fetchData } = useFetch();
+  const { data, isLoading, fetchData } = useFetch();
   const [triviaData, setTriviaData] = useState(null);
 
   useEffect(() => {
