@@ -29,8 +29,9 @@ const AnswerButton = ({ answer, onClick, isSelected, isDisabled }) => {
       onClick={onClick}
       key={Math.random()}
       value={answer}
-      dangerouslySetInnerHTML={createMarkup(answer)}
-    ></button>
+    >
+      {answer}
+    </button>
   );
 };
 

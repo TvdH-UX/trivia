@@ -1,17 +1,9 @@
 import styles from "./NewQuestionsForm.module.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useFetch } from "../../hooks/useFetch";
 
 const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
-  const [amount, setAmount] = useState("10");
-  const [difficulty, setDifficulty] = useState("");
-  const [category, setCategory] = useState("");
-
-  const { data, fetchData: fetchCategories } = useFetch();
-
-  useEffect(() => {
-    fetchCategories(`https://opentdb.com/api_category.php`);
-  }, []);
+  const { data } = useFetch("https://opentdb.com/api_category.php");
 
   const difficulties = [
     { difficulty: "Willekeurig", id: 0, value: "" },
@@ -20,25 +12,17 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
     { difficulty: "Moeilijk", id: 3, value: "hard" },
   ];
 
-  const amountChangeHandler = (event) => {
-    setAmount(event.target.value);
-  };
-
-  const difficultyChangeHandler = (event) => {
-    setDifficulty("&difficulty=" + event.target.value);
-    console.log(data);
-  };
-
-  const categoryChangeHandler = (event) => {
-    setCategory("&category=" + event.target.value);
-  };
-
   const submitHandler = (event) => {
     event.preventDefault();
-    fetchData(
-      `https://opentdb.com/api.php?amount=${amount}${category}${difficulty}`
-    );
-    setTriviaSize(amount);
+    //By using the name prop on input elements you can access form properties like this:
+    const amount = event.target.questionAmount.value;
+    const category = event.target.category.value;
+    const difficulty = event.target.difficulty.value;
+    const url = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}`;
+    //This way, we don't need to use useState at all in this component
+    //Before we fetch, we could check if the form is complete/valid and otherwise show an error message to the user (and add a red outline to the input?)
+    fetchData(url);
+    // setTriviaSize(amount);
   };
 
   return (
@@ -48,15 +32,16 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
         <div className={styles.form_item}>
           <label>Aantal vragen</label>
           <input
+            name="questionAmount"
             type="number"
             min="1"
             placeholder="10"
-            onChange={amountChangeHandler}
+            defaultValue={"10"}
           />
         </div>
         <div className={styles.form_item}>
           <label>Categorie</label>
-          <select onChange={categoryChangeHandler}>
+          <select name="category">
             {data &&
               [{ id: 0, name: "Willekeurig" }, ...data.trivia_categories].map(
                 (category) => (
@@ -69,7 +54,7 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
         </div>
         <div className={styles.form_item}>
           <label>Moeilijkheid</label>
-          <select onChange={difficultyChangeHandler}>
+          <select name="difficulty">
             {difficulties.map((difficulty) => (
               <option value={difficulty.value} key={difficulty.id}>
                 {difficulty.difficulty}
