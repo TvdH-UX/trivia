@@ -22,7 +22,7 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
     //This way, we don't need to use useState at all in this component
     //Before we fetch, we could check if the form is complete/valid and otherwise show an error message to the user (and add a red outline to the input?)
     fetchData(url);
-    setTriviaSize(amount);
+    // setTriviaSize(amount);
   };
 
   return (
