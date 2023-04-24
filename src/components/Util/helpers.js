@@ -23,3 +23,9 @@ export const toTriviaInformation = (triviaData) => {
     };
   });
 };
+
+export const parsePunctuation = (string) => {
+  string = string.replaceAll("&quot;", '"');
+  string = string.replaceAll("&#039;", "'");
+  return string;
+};

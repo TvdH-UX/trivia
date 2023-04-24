@@ -1,10 +1,10 @@
 import Card from "../UI/Card";
 import styles from "./Question.module.css";
-import { createMarkup } from "../Util/helpers";
+import { createMarkup, parsePunctuation } from "../Util/helpers";
 
 const Question = ({ question }) => (
   <Card className={styles.question}>
-    <h3>{question}</h3>
+    <h3>{parsePunctuation(question)}</h3>
   </Card>
 );
 
