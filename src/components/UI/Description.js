@@ -6,9 +6,6 @@ const Description = () => {
       <header>
         <h1>Qquest Trivia</h1>
       </header>
-      {/* <div className={styles["description"]}>
-        <p>Welkom op de Qquest Trivia quiz app!</p>
-      </div> */}
     </div>
   );
 };

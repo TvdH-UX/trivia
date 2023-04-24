@@ -15,20 +15,3 @@ const ResetButton = ({ onClick, isPlaying }) => {
 };
 
 export default ResetButton;
-
-/*
-{gameState"Playing" ? (
-      <div className="ui-element">
-        <button className={styles["resetBtn"]} onClick={onClick}>
-          🗑
-        </button>
-      </div>
-
-    ) : (
-      <div>
-        <button className={styles["resetBtn"]} onClick={onClick}>
-          Start nieuw spel
-        </button>
-      </div>
-    )}
-*/

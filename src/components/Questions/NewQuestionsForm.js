@@ -14,15 +14,11 @@ const NewQuestionsForm = ({ fetchData, setTriviaSize, isLoading }) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    //By using the name prop on input elements you can access form properties like this:
     const amount = event.target.questionAmount.value;
     const category = event.target.category.value;
     const difficulty = event.target.difficulty.value;
     const url = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}`;
-    //This way, we don't need to use useState at all in this component
-    //Before we fetch, we could check if the form is complete/valid and otherwise show an error message to the user (and add a red outline to the input?)
     fetchData(url);
-    // setTriviaSize(amount);
   };
 
   return (
